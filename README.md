@@ -11,3 +11,39 @@
  2. 재귀함수로 구현하기에는 비효율적이다.
  
  - 즉, An을 구할때 매번 계산하는 것이 아닌 메모리에 저장해두고, 마지막 An-1과 An-2 만을 호출해서 계산하는 것이다. 이를 <b> 메모이제이션(Memoization) </b>이라고 한다.
+ 
+ ---
+ 
+ <h4> Selection Sorting(선택정렬) </h4>
+ 
+  1. 첫번째 자리 값을 최솟값으로 지정한다.
+  2. 다음 자리값과 비교하여 리스트를 순회하면서 최솟값을 갱신한다.
+  3. 결과값과 첫번째 자리와 자리를 바꾼다.
+  4. 그 다음 자리값을 최솟값으로 지정하고 1,2,3의 과정을 반복한다.
+  
+~~~c++  
+  void selectionSort(int *list, const int n)
+{
+    int i, j, indexMin, temp;
+
+    for (i = 0; i < n - 1; i++)
+    {
+        indexMin = i;
+        for (j = i + 1; j < n; j++)
+        {
+            if (list[j] < list[indexMin])
+            {
+                indexMin = j;
+            }
+        }
+        temp = list[indexMin];
+        list[indexMin] = list[i];
+        list[i] = temp;
+    }
+}
+~~~
+
+ - 시간복잡도는 O(n^2)로 효율적인 정렬방법은 아니다.
+ - (10개의 수일경우 비교하는 횟수는 10+9+8+...1으로 10(1+10)/2 => n(n+1)/2로 O(n^2)이다.
+ 
+ ---
