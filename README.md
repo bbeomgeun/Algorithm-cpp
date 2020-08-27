@@ -112,7 +112,7 @@ void insertionSort(int* list, int N) {
 ~~~c++
 void quicksort(int* list, int start, int end) {
 	if (start >= end) {
-		return; //원소 한개일때
+		return; //원소 한개일때 재귀를 종료.
 	}
 	
 	int i = start+1;
@@ -122,10 +122,10 @@ void quicksort(int* list, int start, int end) {
 	while (i <= j) { // 서로 엇갈릴때까지 반복 => 참 조건은 엇갈리지 않을 때까지
 		while (list[pivot] >= list[i] && i<=end) { // 키값보다 큰값을 찾을때 : 즉 피봇이 계속 클 때 참값이고 작으면 중단 => list[pivot]<=list[i]이 중단조건
 			i++;
-		}
+		}					   // i<=end 조건은 end를 벗어나기전까지. (등호 포함)
 		while (list[pivot] <= list[j] && j > start) { // 역시 피봇값보다 작은 원소를 찾을 때까지 반복 = 피봇값보다 큰 것이 참조건 =>list[pivot] >= list[j]가 중단조건
 			j--;
-		}
+		}					   // i>start 조건은 start 앞까지 (start는 pivot자리이므로) (등호 미포함)
 		if (i > j) { // 엇갈렸을때 j(end)값과 pivot을 바꿔준다.
 			int temp = list[j];
 			list[j] = list[pivot];
@@ -148,5 +148,7 @@ void quicksort(int* list, int start, int end) {
  - 분할정복+재귀호출으로 n번 탐색하며 반으로 쪼개서 깊이(logn)가 정해지므로 n * logn이다.
  - 최악은 O(n^2)로 정렬되어있는 리스트를 퀵정렬 할 경우 매번 n번 탐색 * n번 호출깊이(횟수)로 n * n이 된다. (불균형 분할이 된다.)
  - 일반적으로는 위의 선택, 버블, 삽입 정렬과 비교해서 성능이 빠르다.
+ - while문 안의 while 두개에서 조건의 부등호를 각자 바꿔주면 내림차순으로 변경된다.
+ - list[pivot] <= list[i] 와 list[pivot] >= list[j] 으로 부등호방향만 바꿔주면 된다. (그러면 왼쪽엔 큰 값, 오른쪽엔 작은 값가 정렬)
  
  ---
