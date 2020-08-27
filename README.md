@@ -100,3 +100,53 @@ void insertionSort(int* list, int N) {
  - 시간복잡도는 선택, 버블정렬과 마찬가지로 O(n^2)이지만 - (반복문이 두번) 실제로는 선택정렬, 버블정렬보다 효율적일 수 있다.
  - 배열이 거의 오름차순으로 초기화되어있을 경우, 삽입정렬은 순회가 종료되는 시점을 알기에 훨신 효율적으로 정렬이 가능하다.
  - 필요할때만 삽입을 하기에 데이터가 이미 정렬되어있을 경우 어떤 알고리즘보다 빠를 수 있다.
+
+---
+<h4> Quick Sorting(퀵정렬) </h4>
+
+1. pivot을 정해서 일반적으로 pivot 기준으로 작은 값은 왼쪽, 큰 값은 오른쪽으로 정렬을 해준다.
+2. 왼쪽 시작원소를 start, 오른쪽 끝노드를 end로 해서 start++ . end -- 하면서 pivot보다 큰값, 작은값을 각각 찾아서 위치를 바꾼다.
+3. 계속해서 위치를 바꾸다가 start와 end의 index가 서로 엇갈릴 경우, end의 값과 pivot으로 정한 값의 위치를 바꿔준다.
+4. end의 index를 기준으로 왼쪽 원소들과 오른쪽 원소들을 파티션으로 나눠서 위의 과정을 반복한다. (재귀 호출)
+
+~~~c++
+void quicksort(int* list, int start, int end) {
+	if (start >= end) {
+		return; //원소 한개일때
+	}
+	
+	int i = start+1;
+	int j = end;
+	int pivot = start;
+
+	while (i <= j) { // 서로 엇갈릴때까지 반복 => 참 조건은 엇갈리지 않을 때까지
+		while (list[pivot] >= list[i] && i<=end) { // 키값보다 큰값을 찾을때 : 즉 피봇이 계속 클 때 참값이고 작으면 중단 => list[pivot]<=list[i]이 중단조건
+			i++;
+		}
+		while (list[pivot] <= list[j] && j > start) { // 역시 피봇값보다 작은 원소를 찾을 때까지 반복 = 피봇값보다 큰 것이 참조건 =>list[pivot] >= list[j]가 중단조건
+			j--;
+		}
+		if (i > j) { // 엇갈렸을때 j(end)값과 pivot을 바꿔준다.
+			int temp = list[j];
+			list[j] = list[pivot];
+			list[pivot] = temp;
+		}
+		else { // 아닐경우 i와 j의 값을 바꿔준다.
+			int temp = list[i];
+			list[i] = list[j];
+			list[j] = temp;
+		}
+	}
+	// i와 j가 교차될때 pivot과 j와 값을 바꾸고 j를 기준으로 분할정렬된다.
+	quicksort(list, start, j-1); // j기준 왼쪽 파티션
+	quicksort(list, j+1, end); // j기준 오른쪽 파티션
+}
+
+~~~
+
+ - 퀵정렬의 시간복잡도는 평균적으로 O(nLogn)이다. 
+ - 분할정복+재귀호출으로 n번 탐색하며 반으로 쪼개서 깊이(logn)가 정해지므로 n * logn이다.
+ - 최악은 O(n^2)로 정렬되어있는 리스트를 퀵정렬 할 경우 매번 n번 탐색 * n번 호출깊이(횟수)로 n * n이 된다. (불균형 분할이 된다.)
+ - 일반적으로는 위의 선택, 버블, 삽입 정렬과 비교해서 성능이 빠르다.
+ 
+ ---
