@@ -152,3 +152,65 @@ void quicksort(int* list, int start, int end) {
  - list[pivot] <= list[i] 와 list[pivot] >= list[j] 으로 부등호방향만 바꿔주면 된다. (그러면 왼쪽엔 큰 값, 오른쪽엔 작은 값가 정렬)
  
  ---
+ 
+ <h4> Merge Sorting(병합정렬) </h4>
+ 
+ 1. 병합 정렬은 기본적으로 분할정복 방버을 채택한 알고리즘이다.
+ 2. 퀵 정렬은 피봇값을 기준으로 나누지만, 병합 정렬은 항상 반으로 나누는 특징(이것이 logN을 만든다).
+ 3. 리스트를 원소 단위로 모두 나눈 다음에, 병합하면서 부분집합을 만들고, 그 집합을 또 병합한다.
+ 4. 병합을 진행할 때, 부분 집합은 이미 정렬이 되어 있는 상태로 가정한다.
+ 5. 즉, 집합을 반씩 나눠서 원소 단위로 나눈 다음 합치는 순간에 정렬을 수행하며 나아간다.
+ 
+ ~~~c++
+ int sorted[8]; // 정렬된 원소를 저장할 배열은 항상 전역변수르 저장해주자.
+ void merge(int* list, int start, int middle, int end) {
+	int i = start;
+	int j = middle + 1;
+	int k = start;
+	while (i<=middle && j <=end) { 
+	// 참조건은 두 index가 모두 도달하지 않았을때 /  i가 middle까지가거나 j가 end까지 가거나(false 조건)
+		if (list[i] <= list[j]) { 
+		// 블럭 인덱스끼리 비교해서 sorted array에 작은 수부터 넣어준다.
+			sorted[k] = list[i];
+			i++;
+		} 
+		else {
+			sorted[k] = list[j];
+			j++;
+		}
+		k++; //sorted array의 인덱스 k를 한칸씩 옮겨주면서 진행
+	}
+	// 남은 데이터 삽입
+	if (i  > middle) { 
+	//앞 블럭이 먼저 sorted array에 들어갈 경우 뒷 블럭의 인덱스 j를 end까지 옮겨주면서 넣어준다.
+		for (int t = j; t <= end; t++) {
+			sorted[k] = list[t];
+			k++;
+		}
+	}
+	else { 
+	// 역시 뒷블럭이 먼저 sorted array에 들어갈 경우 앞 블럭의 인덱스 i를 middle까지 옮겨주면서 넣어준다.
+		for (int t = i; t <= middle; t++) {
+			sorted[k] = list[t];
+			k++;
+		}
+	}
+	for (int t = start; t <= end; t++) {
+		list[t] = sorted[t];
+	} // 정렬한(sorted array) 수를 다시 원래 데이터list에 넣어준다.
+}
+
+void mergeSort(int* list, int start, int end) {
+	if (start < end) { // 크기가 1보다 큰 경우 mergeSort를 진행.
+		int middle = (start + end) / 2;
+		mergeSort(list, start, middle);
+		mergeSort(list, middle + 1, end);
+		merge(list, start, middle, end);
+	} // 계속해서 middle을 기준으로 반으로 나누고 merge 함수를 호출하며 병합을 진행한다.
+}
+~~~
+
+ - 병합 정렬의 시간 복잡도는 O(nLogn)이다.
+ - 항상 반으로 나누기에 nLogn에 이미 정렬이 되어 있는 두 블럭을 합치는 것은 o(N)이기 때문이다.
+ - 따라서 퀵정렬은 최악의 경우 O(N^2)이지만 병합 정렬은 항상 O(nLogn)을 보장한다.
+ - 하지만 병합 정렬은 기존의 데이터를 담을 추가적인 배열 공간이 필요하다 라는 점에서 메모리 활용이 비효율적일 수 있다. 
