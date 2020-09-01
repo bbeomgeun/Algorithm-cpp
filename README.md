@@ -217,8 +217,18 @@ void mergeSort(int* list, int start, int end) {
  
  ~~~
  
+ ---
+ 
  <h4> Stack(스택) </h4>
  
   - 스택은 한쪽 입구에서 데이터를 넣고 빼는 LIFO(LAST IN FIRST OUT)의 자료구조이다.
   - 즉, 가장 최근에 추가된 데이터가 가장 먼저 제거된다.
   - C++에서는 직접 구현하거나, STL #Include <Stack>을 이용해서 사용할 수 있다.
+  
+  ---
+  
+  <h4> Queue(큐) </h4>
+  
+  ---
+  
+  
