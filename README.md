@@ -310,3 +310,63 @@ int main() {
  <img src = "https://upload.wikimedia.org/wikipedia/commons/5/5d/Breadth-First-Search-Algorithm.gif">
    
   출처 : https://twpower.github.io/73-how-to-implement-dfs-and-bfs-in-cpp
+  
+  ---
+  
+  <h4> DFS(Depth First Search) 깊이우선탐색 </h4>
+  
+   - 탐색을 함에 있어 보다 깊은 것을 우선적으로 하는 
+   - 일반적으로 스택(Stack) 알고리즘 또는 재귀함수(Recursion)을 사용한다.
+   
+   ~~~ c++
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+vector<int> a[1001];
+bool checked[1001];
+int u, v;
+
+void dfs(int node) {
+	checked[node] = true;
+	cout << node << " ";
+
+	for (int i = 0;  i < a[node].size(); i++) {
+		int next = a[node][i];
+
+		if (checked[next] == false)
+			dfs(next);
+	}
+
+}
+
+int main() {
+	int n, m, start;
+	cin >> n >> m >> start;
+
+	for (int i = 0; i <m; i++) {
+		cin >> u >> v;
+		a[u].push_back(v);
+		a[v].push_back(u);
+	}
+	for (int i = 1; i <= n; i++)
+		sort(a[i].begin(), a[i].end());
+
+	dfs(start);
+
+	return 0;
+}
+~~~
+
+  1. 노드를 입력받은 후, 시작노드를 방문완료 후 출력해준다.
+  2. 역시 a[node].size()만큼 인접노드를 탐색하되, 아직 방문하지 않았다면(false)이면 재귀호출한다. 
+  3. 그렇게 깊이우선으로 탐색하다가, 어느 한점에 연결된 인접노드들이 모두 방문완료인 상태이면 재귀호출된 함수가 하나씩 종료되며 전 노드로 빠져나온다.
+  4. 이런 식으로 한 노드에 대한 깊이우선으로 탐색하고 빠져 나온뒤에 다음 노드의 깊이우선으로 탐색을 반복한다.
+  
+  <img src = "https://upload.wikimedia.org/wikipedia/commons/7/7f/Depth-First-Search.gif">
+  
+  출처 : https://twpower.github.io/73-how-to-implement-dfs-and-bfs-in-cpp
+  
+  ---
