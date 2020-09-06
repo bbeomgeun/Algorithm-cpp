@@ -149,7 +149,7 @@ void quicksort(int* list, int start, int end) {
  - 최악은 O(n^2)로 정렬되어있는 리스트를 퀵정렬 할 경우 매번 n번 탐색 * n번 호출깊이(횟수)로 n * n이 된다. (불균형 분할이 된다.)
  - 일반적으로는 위의 선택, 버블, 삽입 정렬과 비교해서 성능이 빠르다.
  - while문 안의 while 두개에서 조건의 부등호를 각자 바꿔주면 내림차순으로 변경된다.
- - list[pivot] <= list[i] 와 list[pivot] >= list[j] 으로 부등호방향만 바꿔주면 된다. (그러면 왼쪽엔 큰 값, 오른쪽엔 작은 값가 정렬)
+ - list[pivot] <= list[i] 와 list[pivot] >= list[j] 으로 부등호방향만 바꿔주면 된다. (그러면 왼쪽엔 큰 값, 오른쪽엔 작은 값이 정렬)
  
  ---
  
@@ -241,5 +241,72 @@ void mergeSort(int* list, int start, int end) {
    
    ~~~ c++
    
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+vector<int> a[1001]; 
+bool check[1001]; // 방문한 노드인지 확인
+
+void bfs(int start) {
+	queue<int> q;
+	check[start] = true;
+	q.push(start);
+
+	while (!q.empty()) {
+		int node = q.front();
+		q.pop();
+
+		cout << node << " ";
+
+		for (int i = 0; i < a[node].size(); i++) {
+			int next = a[node][i];
+
+			if (check[next] == false) {
+				check[next] = true;
+				q.push(next);
+			}
+		}
+	}
+}
+
+int main() {
+
+	int n, m, start; // 노드 갯수, 간선 갯수, 시작노드
+	cin >> n >> m >> start;
+
+	for (int i = 0; i < m; i++) {
+		int u, v;
+		cin >> u >> v;
+
+		a[u].push_back(v); // u와 v를 입력받아서 연결해준다.
+		a[v].push_back(u);
+	}
+
+	for (int i = 1; i <= n; i++) // 연결된 노드들을 정렬해준다 (1과 연결된 노드가 3, 5, 1이라면 1, 3, 5로)
+		sort(a[i].begin(), a[i].end());
+
+	bfs(start);
+
+	return 0;
+}
+
+~~~
+
+ <b> vector에 대한 이해</b>  
+  - a[i].push_back(k)는 벡터요소[i]안에 추가로 [0],[1],[2]처럼 저장해준다.  
+  즉 a[node].size()하면 위의 경우 3이고 그 횟수만큼 a[node][i] (a[node]안에서 index를 돌리면서 vector요소 안의 배열에 접근하는 것이다)  
+  결과적으로, 그 노드에 연결된 노드들로 해석되어지며 bfs를 수행할 수 있다. 
+ 
+ 1. 시작 노드를 입력받는다.
+ 2. 시작 노드의 방문여부를 true로 바꾼 후, 주변 노드 검색을 위해 저장 후 queue에서 빼준다.
+ 3. 반복문을 통해 시작 노드에 연결된 노드들을 방문한다. (a[node].size()는 그 노드에 연결된 노드들의 갯수만큼)
+ 4. 각각 방문할때 방문여부를 체크 후 이미 방문했다면 다음, 방문하지 않았다면 queue에 넣어주고 방문여부를 true로 바꾼다.
+ 5. queue가 empty()까지 계속 반복해준다.
+ 
+ <img src = "https://upload.wikimedia.org/wikipedia/commons/5/5d/Breadth-First-Search-Algorithm.gif">
    
-  
+  출처 : https://twpower.github.io/73-how-to-implement-dfs-and-bfs-in-cpp
