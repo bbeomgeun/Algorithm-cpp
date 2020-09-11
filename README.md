@@ -227,6 +227,10 @@ void mergeSort(int* list, int start, int end) {
   
   <h4> Queue(큐) </h4>
   
+   - 큐는 양쪽에서 데이터를 넣고 뺄 수 있는 FIFO(FIRST IN FIRST OUT)의 자료구조이다.
+   - 즉, 가장 먼저 넣은 데이터가 가장 먼저 제거된다. (넣은 순서대로 제거된다)
+   - C++에서는 직접 구현하거나, STL #Include <Queue>를 이용해서 사용할 수 있다.
+  
   ---
   
   <h3> 그래프 탐색 </h3>
