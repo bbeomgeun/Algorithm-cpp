@@ -258,6 +258,16 @@ void mergeSort(int* list, int start, int end) {
    - 즉, 가장 먼저 넣은 데이터가 가장 먼저 제거된다. (넣은 순서대로 제거된다)
    - C++에서는 직접 구현하거나, STL #Include <Queue>를 이용해서 사용할 수 있다.
   
+  <h4> 원형큐 </h4>
+  
+   - 배열로 큐를 구현했을때, 선형배열에서는 데이터 삽입, 삭제를 반복하면 어느순간 큐는 데이터가 꽉 찼다고 생각하게 된다. (실제로는 앞은 비어있음)
+   - 따라서 배열의 앞과 끝을 이어줌으로, 원형을 이뤄서 마지막 인덱스 이후 접근은 다시 처음부터 접근하게끔 구현을 해준다. (% 연산 이용)
+   - 구현 원리는 front와 rear은 index = 0으로 해주고, 항상 enqueue/ dequeue 시 front와 rear의 인덱스를 1 늘려준 후에 수행을 한다.
+   - 원형큐가 full인지 아닌지 비교하기 위해서 한 칸은 항상 비워두고, 그곳은 front가 항상 가리키고 있다. (full조건 : (rear+1) % MAX_SIZE == front )
+   - enqueue시 rear = (rear+1) % MAX_SIZE 을 통해 rear 한칸 이동 & % MAX_SIZE를 통해 원형으로 배열접근을 하게끔 구현한다.
+   - dequeue시 front = (front+1) % MAX_SIZE 을 통해 front 한칸 이동 & % MAX_SIZE를 통해 원형으로 배열접근을 하게끔 구현한다.
+   - 그러면 front는 dequeue된 인덱스를 가리키므로 항상 front는 빈 곳을 가리키게 된다.
+  
   ---
   
   <h3> 그래프 탐색 </h3>
