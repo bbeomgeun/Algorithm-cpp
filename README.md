@@ -242,7 +242,18 @@ void mergeSort(int* list, int start, int end) {
    - 구현을 쉽게 하기 위하여 배열의 첫 번째 인덱스는 0은 사용되지 않는다.
    - 왼쪽 자식 = 부모 노드 * 2 | 오른쪽 자식 = 부모 노드 * 2 + 1 | 부모 노드 = 자식 / 2
  
- ---
+   - STL 사용시
+~~~ c++
+
+   #include <queue>
+   priority_queue<자료형, container, 오름/내림차순> 이름;
+   priority_queue<int, <vector<int>, greater<int>> pq;
+
+  후 push, top, empty 등 연산 수행
+  
+~~~
+
+---
  
  <h4> Stack(스택) </h4>
  
