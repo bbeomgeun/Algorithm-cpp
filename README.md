@@ -308,7 +308,9 @@ void mergeSort(int* list, int start, int end) {
    - 탐색을 할 때 너비를 우선으로 하여 탐색을 수행하는 탐색 알고리즘
    - "맹목적인 탐색"을 하고자 할 때 사용할 수 있는 탐색 기법으로 "최단 경로"를 찾아준다는 점에서 최단 길이를 보장해야 할 때 많이 사용한다.
    - 일반적으로 큐(Queue) 자료구조를 이용한다.
-   - 최단거리 계산에도 이용한다.
+   - unweighted graph에 대해 최단거리 계산에도 이용한다.
+   - 시간복잡도는 O(N+M) n은 vertex, m은 edge의 갯수이다.
+   - BFS를 진행하면서 queue에 모든 vertex가 한번씩 enqueue, dequeue가 됨에 따라 O(N)의 시간이 추가되고, enqueue된 vertex에 연결된 neighbor들을 한번씩 탐색하므로 그래프의 모든 vertex에 대해 각 deg(v)의 합이 된다. 이것은 2xM이고 결국엔 O(N+M)이 나오게 된다.
    
    ~~~ c++
    
@@ -388,6 +390,8 @@ int main() {
   
    - 탐색을 함에 있어 보다 깊은 것을 우선적으로 하는 탐색 알고리즘.
    - 일반적으로 스택(Stack) 알고리즘 또는 재귀함수(Recursion)을 사용한다.
+   - 시간복잡도는 DFS도 역시 O(N+M) n은 vertex, m은 edge의 갯수이다.
+   - DFS를 진행하면서 모든 vertex가 한번씩 방문하게 되고 O(N)의 시간이 추가되고, vertex에 연결된 neighbor들을 한번씩 탐색하므로 그래프의 모든 vertex에 대해 각 deg(v)의 합이 된다. 이것은 2xM이고 결국엔 O(N+M)이 나오게 된다.
    
    ~~~ c++
 #include <iostream>
