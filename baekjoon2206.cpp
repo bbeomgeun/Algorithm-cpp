@@ -45,6 +45,7 @@ int BFS(int x, int y, int b) {
 		}
 
 	}
+	return -1;
 }
 
 int main() {
@@ -56,8 +57,5 @@ int main() {
 		}
 	}
 		
-	if(BFS(0, 0, 1))
-		cout << BFS(0, 0, 1);
-	else
-		cout << -1;
+	cout << BFS(0, 0, 1);
 }
