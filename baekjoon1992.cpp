@@ -1,55 +1,51 @@
 #include <iostream>
 
 using namespace std;
-int n;
-char star[6562][6562];
 
-void printStar(int col, int row, int size) {
-	int tempsize = size / 3;
-	if (size == 3) {
-		for (int i = col; i < col+size; i++) {
-			for (int j = row; j < row+size; j++) {
-				if (i >= col+tempsize && i < col+tempsize * 2 && j >= row+tempsize && j < row+tempsize * 2) {
-					star[i][j] = ' ';
-				}
-				else {
-					star[i][j] = '*';
-				}
-			}
-		}
+int n, arr[65][65];
+string s;
+
+void compression(int size, int col, int row) {
+	if (size == 1) {
+		cout << arr[col][row];
+		return;
 	}
-
 	else {
-		for (int i = col; i < col + size; i += tempsize) {
-			for (int j = row; j < row + size; j+= tempsize) {
-				if (i >= col + tempsize && i < col + tempsize * 2 && j >= row + tempsize && j < row + tempsize * 2) {
-					star[i][j] = ' ';
-				}
-				else {
-					printStar(i, j, tempsize);
+		int temp = arr[col][row];
+		int flag = true;
+		for (int i = col; i < size + col; i++) {
+			for (int j = row; j < size + row; j++) {
+				if (temp != arr[i][j]) {
+					flag = false;
+					break;
 				}
 			}
+			if (!flag)
+				break;
+		}
+		if (flag) {
+			cout << temp;
+		}
+		else {
+			cout << "(";
+			compression(size / 2, col, row);
+			compression(size / 2, col, row + size / 2);
+			compression(size / 2, col + size / 2, row);
+			compression(size / 2, col + size / 2, row + size / 2);
+			cout << ")";
 		}
 	}
 }
+
+
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
 	cin >> n;
-
 	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			star[i][j] = ' ';
+		cin >> s;
+		for (int j = 0; j < s.size(); j++) {
+			arr[i][j] = s[j]-'0';
 		}
 	}
 
-	printStar(0,0,n);
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cout << star[i][j];
-		}
-		cout << "\n";
-	}
-
+	compression(n, 0, 0);
 }
