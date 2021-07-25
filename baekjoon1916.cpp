@@ -1,46 +1,55 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#define INF 987654321
+
 using namespace std;
-#define INF 1e9;
-vector<pair<int, int>> v[1001];
-priority_queue <pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > pq;
+
+typedef long long ll;
+typedef pair<int, int> pii;
+int N, M, from, to, weight, start, target;
+vector<pii> v[1001];
+priority_queue<pii, vector<pii>, greater<pii>> pq;
 int dist[1001];
 
-int n, m, from, to, fromToCost, start, dest;
+int dijkstra(int startX, int target) {
+	dist[startX] = 0;
+	pq.push(make_pair(dist[startX], startX));
+
+	while (!pq.empty()) {
+		int dis = pq.top().first;
+		int x = pq.top().second;
+		pq.pop();
+
+		if (x == target)
+			return dist[target];
+
+
+		for (int i = 0; i < v[x].size(); i++) {
+			int nx = v[x][i].first;
+			int weight = v[x][i].second;
+
+			if (dist[nx] > dis + weight) {
+				dist[nx] = dis + weight;
+				pq.push(make_pair(dist[nx], nx));
+			}
+		}
+	}
+}
 
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
-	cin >> n >> m;
-	for (int i = 0; i < m; i++) {
-		cin >> from >> to >> fromToCost;
-		v[from].push_back(make_pair(to, fromToCost));
+	cin >> N >> M;
+	for (int i = 0; i < M; i++) {
+		cin >> from >> to >> weight;
+		v[from].push_back(make_pair(to, weight));
 	}
-	cin >> start >> dest;
+	cin >> start >> target;
 
-	for (int i = 0; i <= n; i++) {
+	for (int i = 1; i <= N; i++) {
 		dist[i] = INF;
 	}
 
-	dist[start] = 0;
-	pq.push(make_pair(0, start));
-
-	while (!pq.empty()) {
-		int distance = pq.top().first;
-		int here = pq.top().second;
-		pq.pop();
-
-		for (int i = 0; i < v[here].size(); i++) {
-			int next = v[here][i].first;
-			int cost = v[here][i].second + distance;
-
-			if (dist[next] > cost) {
-				dist[next] = cost;
-				pq.push(make_pair(dist[next], next));
-			}
-		}
-	}
-
-	cout << dist[dest];
+	cout<<dijkstra(start, target);
 }
