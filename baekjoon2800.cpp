@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <stack>
+#include <set>
 
 using namespace std;
 
@@ -9,10 +10,10 @@ stack<int> pairStack;
 vector<pair<int, int>> pairVector;
 int check[11], stringCheck[201];
 string s;
-vector<string> v;
+set<string> answer;
 
 void combination(string s, int depth, int next, int to) {
-	if (depth == to)
+	if (depth == to+1)
 		return;
 	if (depth > 0) {
 		string temp = "";
@@ -21,7 +22,7 @@ void combination(string s, int depth, int next, int to) {
 				temp += s[i];
 		}
 	
-		v.push_back(temp);
+		answer.insert(temp);
 	}
 	for (int i = next; i < to; i++) {
 		if (!check[i]) {
@@ -39,28 +40,19 @@ void combination(string s, int depth, int next, int to) {
 int main() {
 	ios::sync_with_stdio(false); 	cin.tie(0);
 	cin >> s;
-	int cnt = 0;
 	string temp = "";
 	for (int i = 0; i < s.size(); i++) {
 		if (s[i] == '(') {
 			pairStack.push(i);
-			cnt++;
-			continue;
 		}
 		else if (s[i] == ')') {
 			pairVector.push_back({ pairStack.top(), i });
 			pairStack.pop();
-			continue;
 		}
-		else
-			temp += s[i];
 	}
-	v.push_back(temp);
 
-	combination(s, 0, 0, cnt);
+	combination(s, 0, 0, pairVector.size());
 
-	sort(v.begin(), v.end());
-	v.erase(unique(v.begin(), v.end()), v.end());
-	for (auto k : v)
+	for (auto k : answer)
 		cout << k << "\n";
 }
